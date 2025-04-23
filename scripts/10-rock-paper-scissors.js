@@ -6,6 +6,38 @@ let score = JSON.parse(localStorage.getItem('score')) || {
 
 updateScoreElement();
 
+let isAutoPlaying = false;
+let intervalID;
+
+function autoPlay(){
+  if(!isAutoPlaying){
+    intervalID = setInterval (() => {
+      const playerMove = pickComputerMove();
+      playGame(playerMove);
+    }, 1000);
+    isAutoPlaying = true;
+  } else{
+    clearInterval(intervalID);
+    isAutoPlaying = false;
+  }
+};
+
+//using addEventListener instead of onclick
+document.querySelector('.js-rock-button').addEventListener('click', () => {
+  playGame('rock');
+});
+
+//using keydown in addEventListener
+document.body.addEventListener('keydown', (event) => {
+  if(event.key === 'r'){
+    playGame('rock');
+  } else if(event.key === 'p'){
+    playGame('paper');
+  } else if(event.key === 's'){
+    playGame('scissors');
+  }
+});
+
 function playGame(playerMove){
   const computerMove = pickComputerMove();
 
