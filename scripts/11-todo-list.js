@@ -8,23 +8,26 @@ renderTodoList();
 function renderTodoList(){
   let todoListHtml = '';
 
-  //using for loop
-  for(let i = 0; i < todoList.length; i++){
-    const todoObject = todoList[i];
+  //using forEach loop
+  todoList.forEach((todoObject, index) => {
     //const name = todoObject.name; 
     //const dueDate = todoObject.dueDate;
     const {name, dueDate} = todoObject; //shortcut
 
     const html = `<div>${name}</div>
     <div>${dueDate}</div>
-    <button onclick="
-      todoList.splice(${i}, 1);
-      renderTodoList();
-    " class="delete-todo-btn">Delete</button>
+    <button class="delete-todo-btn js-delete-todo-btn">Delete</button>
     `;
     todoListHtml += html;
-  }
+  });
   document.querySelector('.js-todo-list').innerHTML = todoListHtml;
+
+  document.querySelectorAll('.js-delete-todo-btn').forEach((deleteButton, index) => {
+    deleteButton.addEventListener('click', () => {
+      todoList.splice(index, 1);
+      renderTodoList();
+    });
+  });
 }
 
 function addTodo(){
